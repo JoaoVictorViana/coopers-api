@@ -38,9 +38,9 @@ export class UserService {
       },
     });
 
-    if(!user){ 
-      throw new UnauthorizedException
-     }
+    if (!user) {
+      throw new UnauthorizedException();
+    }
     return user;
   }
 }

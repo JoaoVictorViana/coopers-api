@@ -34,7 +34,7 @@ export class TodoController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/check/:id')
+  @Post('/check/:id')
   async findById(@Param('id') id: number) {
     return await this.todoService.check(id);
   }

@@ -9,7 +9,6 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
