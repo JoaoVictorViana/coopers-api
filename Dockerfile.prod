@@ -17,7 +17,7 @@ COPY --chown=node tsconfig.build.json \
   tsconfig.json \
   ./
 
-RUN yarn
+RUN yarn --network-timeout 100000
 
 RUN yarn build
 
