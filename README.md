@@ -59,6 +59,9 @@
   - username
   - password
   - *Necessario passar o BearerToken*
+
+- GET /auth/me obtem as informações do usuário logado
+  - *Necessario passar o BearerToken*
 ```
 <span style="font-size: 20px">OBS:
   - Para exclusão de um usuario é necessario que o usuario não tenha nenhum todo cadastro;
@@ -92,3 +95,12 @@ docker build -t nestjs-docker .
 docker run -p 3000:3000 nestjs-docker
 
 ```
+## Deploy
+
+O projeto foi hospedado na AWS para facilitar a utilização da api: http://50.19.173.216:3000
+
+Foi utilizado os seguintes serviços da AWS:
+
+ECR (Amazon Elastic Container Registry)
+ECS (Amazon EC2 Container Service)
+RDS Mysql
