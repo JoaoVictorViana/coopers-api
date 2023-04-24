@@ -14,8 +14,6 @@ COPY --chown=node package*.json ./
 
 COPY --chown=node src src
 
-COPY --chown=node views views
-
 COPY --chown=node tsconfig.build.json \
   nest-cli.json \
   tsconfig.json \
