@@ -1,73 +1,94 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<h1>Desafio Coopers</h1>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TypeORM](https://img.shields.io/badge/typeorm-%23000000.svg?style=for-the-badge&logo=typeormt&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Desafio
 
-## Description
+- Contrução de sistema de autenticação por token
+- CRUD de usuários 
+- CRUD de Todo
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Documentação da API
 
-## Installation
+```
+- GET /users retorna a lista de usuarios cadastrados
+
+- POST /users cadastra novo usuario
+  - name
+  - username
+  - password
+
+- PUT /users/[id] atualiza dado do usuario
+  - name
+  - username
+  - *Necessario passar o BearerToken*
+
+- DELETE /users/[id] deleta um usuario
+  - id
+  - *Necessario o usuario não ter nenhum post cadatrado*
+  - *Necessario passar o BearerToken*
+```
+```
+- GET /todo retorna lista de todo do usuário logado
+  - id
+  - text
+  - done
+  - user
+  - *Necessario passar o BearerToken*
+
+- POST /todo cadastra um novo todo
+  - text
+  - *Necessario passar o BearerToken*
+
+- PUT /todo/[id] atualiza um todo
+  - text
+  - done
+  - *Necessario passar o BearerToken*
+
+- DELETE /todo/[id] deleta um todo
+  - *Necessario passar o BearerToken*
+```
+```
+- POST /auth/login realiza login
+  - username
+  - password
+  - *Necessario passar o BearerToken*
+```
+<span style="font-size: 20px">OBS:
+  - Para exclusão de um usuario é necessario que o usuario não tenha nenhum todo cadastro;
+  - Apenas o proprio usuario que fez o todo que pode realizar edição e atualização e exclusão, da mesma maneria o todo</span>
+
+### Requerimentos
+
+- Nodejs: 18.12.0
+
+## Instalação
 
 ```bash
-$ yarn install
+$ git clone https://github.com/JoaoVictorViana/coopers-api.git
+$ cd coopers-api
+$ yarn
 ```
 
-## Running the app
+## Rodando o codigo
 
 ```bash
-# development
-$ yarn run start
+# Utilizando NPM:
+# Necessário criar o arquivo .env com base no .env-example
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+yarn start
 ```
-
-## Test
 
 ```bash
-# unit tests
-$ yarn run test
+# Utilizando docker:
 
-# e2e tests
-$ yarn run test:e2e
+docker build -t nestjs-docker .
+docker run -p 3000:3000 nestjs-docker
 
-# test coverage
-$ yarn run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
