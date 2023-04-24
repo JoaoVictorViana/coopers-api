@@ -1,7 +1,8 @@
-import { Body, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,14 @@ export class UserService {
   }
 
   async create(params: Partial<User>): Promise<number> {
-    const response = await this.userRepository.insert({ ...params });
+    const salt = await bcrypt.genSalt();
+
+    const hash = await bcrypt.hash(String(params.password), salt);
+
+    const response = await this.userRepository.insert({
+      ...params,
+      password: hash,
+    });
 
     return response.identifiers?.[0].id;
   }
@@ -34,13 +42,19 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         username,
-        password,
       },
     });
 
     if (!user) {
       throw new UnauthorizedException();
     }
+
+    const isUser = await bcrypt.compare(String(password), user.password);
+
+    if (!isUser) {
+      throw new UnauthorizedException();
+    }
+
     return user;
   }
 }
