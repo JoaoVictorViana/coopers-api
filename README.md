@@ -101,6 +101,6 @@ O projeto foi hospedado na AWS para facilitar a utilização da api: http://50.1
 
 Foi utilizado os seguintes serviços da AWS:
 
-ECR (Amazon Elastic Container Registry)
-ECS (Amazon EC2 Container Service)
-RDS Mysql
+- ECR (Amazon Elastic Container Registry)
+- ECS (Amazon EC2 Container Service)
+- RDS Mysql
