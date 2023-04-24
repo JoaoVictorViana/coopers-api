@@ -8,7 +8,7 @@ FROM base AS dist
 
 WORKDIR /home/node/project
 
-COPY --chown=node package*.json ./
+COPY --chown=node package*.json yarn.lock ./
 
 COPY --chown=node src src
 
