@@ -1,0 +1,44 @@
+FROM node:18.12.0-alpine3.15 AS base
+
+RUN npm install rimraf -g
+
+RUN mkdir -p /home/node/project
+
+WORKDIR /home/node/project
+
+FROM base AS dist
+
+WORKDIR /home/node/project
+
+COPY --chown=node package*.json ./
+
+COPY --chown=node src src
+
+COPY --chown=node views views
+
+COPY --chown=node tsconfig.build.json \
+  nest-cli.json \
+  tsconfig.json \
+  ./
+
+RUN npm ci --legacy-peer-deps
+
+RUN npm run build
+
+RUN npm prune --production --legacy-peer-deps
+
+RUN chown -R root:root /home/node/project/*
+
+FROM base AS deploy
+
+WORKDIR /home/node/project
+
+COPY --from=dist /home/node/project/node_modules node_modules
+
+COPY --from=dist /home/node/project/package.json ./
+
+COPY --from=dist /home/node/project/dist dist
+
+USER node
+
+CMD npm run start:prod
