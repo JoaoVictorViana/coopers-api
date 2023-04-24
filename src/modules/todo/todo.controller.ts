@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt.guard';
-import { Todo as PostEntity } from './todo.entity';
+import { Todo as TodoEntity } from './todo.entity';
 import { TodoService } from './todo.service';
 
 @Controller('todo')
@@ -42,7 +42,7 @@ export class TodoController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Body() params: Partial<PostEntity>,
+    @Body() params: Partial<TodoEntity>,
     @Headers('Authorization') auth: string,
   ) {
     const user = await this.authService.me(auth?.replace('Bearer ', ''));
@@ -53,13 +53,13 @@ export class TodoController {
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() params: Partial<PostEntity>,
+    @Body() params: Partial<TodoEntity>,
     @Headers('Authorization') auth: string,
   ) {
     const user = await this.authService.me(auth?.replace('Bearer ', ''));
-    const post = await this.todoService.findById(id);
+    const todo = await this.todoService.findById(id);
 
-    if (post.user.id !== user.id) {
+    if (todo.user.id !== user.id) {
       throw new UnauthorizedException();
     }
 
@@ -73,9 +73,9 @@ export class TodoController {
     @Headers('Authorization') auth: string,
   ) {
     const user = await this.authService.me(auth?.replace('Bearer ', ''));
-    const post = await this.todoService.findById(id);
+    const todo = await this.todoService.findById(id);
 
-    if (post.user.id !== user.id) {
+    if (todo.user.id !== user.id) {
       throw new UnauthorizedException();
     }
 
