@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -16,6 +21,16 @@ export class UserService {
   }
 
   async create(params: Partial<User>): Promise<number> {
+    const user = await this.userRepository.findOne({
+      where: {
+        username: params.username,
+      },
+    });
+
+    if (user) {
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+    }
+
     const salt = await bcrypt.genSalt();
 
     const hash = await bcrypt.hash(String(params.password), salt);
